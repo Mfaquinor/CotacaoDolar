@@ -5,6 +5,7 @@ import com.cateno.clients.DollarQuoteRestClient;
 import com.cateno.forms.DollarQuoteForm;
 import com.cateno.models.DollarQuote;
 import com.cateno.repositories.DollarQuoteRepository;
+import com.cateno.utils.DataUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,18 @@ public class DollarQuoteService {
     @Inject
     DollarQuoteRepository iDollarQuoteRepository;
 
-    public DollarQuote getDollarQuoteByDate(LocalDate date) {
+    @Inject
+    DataUtils iDataUtils;
+
+    public DollarQuote getDollarQuoteByDate(LocalDate localdate) {
+        LocalDate date = this.iDataUtils.getLastBusinessDay(localdate);
         String formatted = this.toFormattedStringDate(date);
         DollarQuoteForm form = this.iDollarQuoteRestClient.getDollarQuoteByDate(formatted);
 
         DollarQuote quote =
                 new DollarQuoteBuilder()
                         .from(form)
-                        .with(date)
+                        .with(localdate)
                         .build();
 
         this.iDollarQuoteRepository.save(quote);

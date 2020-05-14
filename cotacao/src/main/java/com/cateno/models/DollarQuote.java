@@ -16,8 +16,6 @@ public class DollarQuote extends Model {
 
     private LocalDateTime quoteDate;
 
-    private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
     @Deprecated
     protected DollarQuote() {}
 
@@ -58,13 +56,5 @@ public class DollarQuote extends Model {
 
     public void setQuoteDate(LocalDateTime quoteDate) {
         this.quoteDate = quoteDate;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
     }
 }
