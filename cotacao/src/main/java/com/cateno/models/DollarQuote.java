@@ -1,5 +1,7 @@
 package com.cateno.models;
 
+import com.cateno.forms.DollarQuoteForm;
+
 import javax.persistence.Entity;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -21,11 +23,11 @@ public class DollarQuote extends Model {
     @Deprecated
     protected DollarQuote() {}
 
-    public DollarQuote(double quotePurchase, double quoteSale, LocalDate requestDate, LocalDateTime quoteDate) {
+    public DollarQuote(double quotePurchase, double quoteSale, LocalDateTime quoteDate, LocalDate requestDate) {
         this.quotePurchase = quotePurchase;
         this.quoteSale = quoteSale;
-        this.requestDate = requestDate;
         this.quoteDate = quoteDate;
+        this.requestDate = requestDate;
     }
 
     public double getQuotePurchase() {

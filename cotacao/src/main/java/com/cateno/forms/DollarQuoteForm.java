@@ -18,6 +18,18 @@ public class DollarQuoteForm {
         this.value = value;
     }
 
+    public double getQuotePurchase() {
+        return this.value.get(0).getPurchase();
+    }
+
+    public double getQuoteSale() {
+        return this.value.get(0).getSale();
+    }
+
+    public LocalDateTime getQuoteDate() {
+        return this.value.get(0).getDate();
+    }
+
     public static class DollarQuoteFormValue {
 
         @JsonbProperty("cotacaoCompra")

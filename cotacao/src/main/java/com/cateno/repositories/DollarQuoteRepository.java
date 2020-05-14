@@ -1,4 +1,7 @@
 package com.cateno.repositories;
 
-public interface DollarQuoteRepository implements JpaRe{
+import com.cateno.models.DollarQuote;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DollarQuoteRepository extends JpaRepository<DollarQuote, String> {
 }
