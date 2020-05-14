@@ -5,6 +5,7 @@ import com.cateno.models.DollarQuote;
 import com.cateno.services.DollarQuoteService;
 import com.cateno.views.DollarQuoteView;
 import com.cateno.views.ExceptionView;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,29 +23,19 @@ public class DollarQuoteResource {
     DollarQuoteService iDollarQuoteService;
 
     @GetMapping
-    public ResponseEntity getQuoteToday() {
-        try {
-            DollarQuote quote =
-                    this.iDollarQuoteService.getDollarQuoteByDate(LocalDate.now());
+    public ResponseEntity getQuoteToday() throws TimeException {
+        DollarQuote quote =
+                this.iDollarQuoteService.getDollarQuoteByDate(LocalDate.now());
 
-            return ResponseEntity.ok(new DollarQuoteView(quote));
-        } catch (TimeException e) {
-            ExceptionView view = new ExceptionView(e.getMessage());
-            return ResponseEntity.badRequest().body(view);
-        }
+        return ResponseEntity.ok(new DollarQuoteView(quote));
     }
 
     @GetMapping("/{date}")
-    public ResponseEntity getQuoteByDate(@PathVariable String date) {
-        try {
-            DollarQuote quote =
-                    this.iDollarQuoteService
-                            .getDollarQuoteByDate(LocalDate.parse(date));
+    public ResponseEntity getQuoteByDate(@PathVariable String date) throws TimeException {
+        DollarQuote quote =
+                this.iDollarQuoteService
+                        .getDollarQuoteByDate(LocalDate.parse(date));
 
-            return ResponseEntity.ok(new DollarQuoteView(quote));
-        } catch (TimeException e) {
-            ExceptionView view = new ExceptionView(e.getMessage());
-            return ResponseEntity.badRequest().body(view);
-        }
+        return ResponseEntity.ok(new DollarQuoteView(quote));
     }
 }

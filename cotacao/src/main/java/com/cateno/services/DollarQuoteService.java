@@ -28,12 +28,7 @@ public class DollarQuoteService {
     DataUtils iDataUtils;
 
     public DollarQuote getDollarQuoteByDate(LocalDate localdate) throws TimeException {
-        if(this.iDataUtils.isDateInFuture(localdate))
-            throw new TimeException("Data no futuro é invalida");
-        if(this.iDataUtils.isDateInLimitPast(localdate))
-            throw new TimeException("Datas antes de 28/11/1984 são invalidas");
-
-        LocalDate date = this.iDataUtils.getLastBusinessDay(localdate);
+        LocalDate date = this.getValidDate(localdate);
         String formatted = this.toFormattedStringDate(date);
         DollarQuoteForm form = this.iDollarQuoteRestClient.getDollarQuoteByDate(formatted);
 
@@ -46,6 +41,15 @@ public class DollarQuoteService {
         this.iDollarQuoteRepository.save(quote);
 
         return quote;
+    }
+
+    private LocalDate getValidDate(LocalDate localdate) throws TimeException {
+        if(this.iDataUtils.isDateInFuture(localdate))
+            throw new TimeException("Data no futuro é invalida");
+        if(this.iDataUtils.isDateInLimitPast(localdate))
+            throw new TimeException("Datas antes de 28/11/1984 são invalidas");
+
+        return this.iDataUtils.getLastBusinessDay(localdate);
     }
 
     private String toFormattedStringDate(LocalDate localdate) {
