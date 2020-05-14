@@ -3,6 +3,7 @@ package com.cateno.resources;
 import com.cateno.exceptions.TimeException;
 import com.cateno.models.DollarQuote;
 import com.cateno.services.DollarQuoteService;
+import com.cateno.utils.DataUtils;
 import com.cateno.views.DollarQuoteView;
 import com.cateno.views.ExceptionView;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/dollar")
@@ -22,8 +24,11 @@ public class DollarQuoteResource {
     @Inject
     DollarQuoteService iDollarQuoteService;
 
+    @Inject
+    DataUtils iDataUtils;
+
     @GetMapping
-    public ResponseEntity getQuoteToday() throws TimeException {
+    public ResponseEntity<DollarQuoteView> getQuoteToday() throws TimeException {
         DollarQuote quote =
                 this.iDollarQuoteService.getDollarQuoteByDate(LocalDate.now());
 
@@ -31,10 +36,12 @@ public class DollarQuoteResource {
     }
 
     @GetMapping("/{date}")
-    public ResponseEntity getQuoteByDate(@PathVariable String date) throws TimeException {
+    public ResponseEntity<DollarQuoteView> getQuoteByDate(@PathVariable String date) throws TimeException {
+        LocalDate localdate = iDataUtils.parse(date);
+
         DollarQuote quote =
                 this.iDollarQuoteService
-                        .getDollarQuoteByDate(LocalDate.parse(date));
+                        .getDollarQuoteByDate(localdate);
 
         return ResponseEntity.ok(new DollarQuoteView(quote));
     }

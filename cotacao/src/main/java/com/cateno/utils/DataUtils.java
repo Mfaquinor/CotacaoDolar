@@ -4,13 +4,22 @@ import javax.enterprise.context.ApplicationScoped;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 
 @ApplicationScoped
 public class DataUtils {
 
+    private static final String PATTERN = "dd-MM-yyyy";
+
     private LocalDate today = LocalDate.now();
 
     private LocalDate past = LocalDate.of(1984, Month.NOVEMBER, 28);
+
+    public LocalDate parse(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN);
+        LocalDate localdate = LocalDate.parse(date, formatter);
+        return localdate;
+    }
 
     public LocalDate getLastBusinessDay(LocalDate date) {
         DayOfWeek day = date.getDayOfWeek();
