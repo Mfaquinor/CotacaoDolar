@@ -2,7 +2,6 @@ package com.cateno.forms;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbProperty;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

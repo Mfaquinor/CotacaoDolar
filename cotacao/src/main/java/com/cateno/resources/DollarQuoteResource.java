@@ -1,8 +1,8 @@
 package com.cateno.resources;
 
-import com.cateno.forms.DollarQuoteForm;
 import com.cateno.models.DollarQuote;
 import com.cateno.services.DollarQuoteService;
+import com.cateno.views.DollarQuoteView;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,14 +20,15 @@ public class DollarQuoteResource {
     DollarQuoteService iDollarQuoteService;
 
     @GetMapping
-    public ResponseEntity<DollarQuote> getQuoteToday() {
-        return ResponseEntity.ok(this.iDollarQuoteService.getDollarQuoteByDate(LocalDate.now()));
+    public ResponseEntity<DollarQuoteView> getQuoteToday() {
+        DollarQuote quote = this.iDollarQuoteService.getDollarQuoteByDate(LocalDate.now());
+        return ResponseEntity.ok(new DollarQuoteView(quote));
     }
 
     @GetMapping("/{date}")
-    public ResponseEntity<DollarQuote> getQuoteByDate(@PathVariable String date) {
+    public ResponseEntity<DollarQuoteView> getQuoteByDate(@PathVariable String date) {
         LocalDate localdate = LocalDate.parse(date);
         DollarQuote quote = this.iDollarQuoteService.getDollarQuoteByDate(localdate);
-        return ResponseEntity.ok(quote);
+        return ResponseEntity.ok(new DollarQuoteView(quote));
     }
 }

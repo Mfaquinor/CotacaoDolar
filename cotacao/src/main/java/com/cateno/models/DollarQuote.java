@@ -1,7 +1,5 @@
 package com.cateno.models;
 
-import com.cateno.forms.DollarQuoteForm;
-
 import javax.persistence.Entity;
 import java.sql.Timestamp;
 import java.time.LocalDate;
