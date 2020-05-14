@@ -2,6 +2,7 @@ package com.cateno.services;
 
 import com.cateno.builders.DollarQuoteBuilder;
 import com.cateno.clients.DollarQuoteRestClient;
+import com.cateno.exceptions.TimeException;
 import com.cateno.forms.DollarQuoteForm;
 import com.cateno.models.DollarQuote;
 import com.cateno.repositories.DollarQuoteRepository;
@@ -26,7 +27,12 @@ public class DollarQuoteService {
     @Inject
     DataUtils iDataUtils;
 
-    public DollarQuote getDollarQuoteByDate(LocalDate localdate) {
+    public DollarQuote getDollarQuoteByDate(LocalDate localdate) throws TimeException {
+        if(this.iDataUtils.isDateInFuture(localdate))
+            throw new TimeException("Data no futuro é invalida");
+        if(this.iDataUtils.isDateInLimitPast(localdate))
+            throw new TimeException("Datas antes de 28/11/1984 são invalidas");
+
         LocalDate date = this.iDataUtils.getLastBusinessDay(localdate);
         String formatted = this.toFormattedStringDate(date);
         DollarQuoteForm form = this.iDollarQuoteRestClient.getDollarQuoteByDate(formatted);
