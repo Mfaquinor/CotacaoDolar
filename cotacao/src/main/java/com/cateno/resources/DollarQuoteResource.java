@@ -5,17 +5,18 @@ import com.cateno.models.DollarQuote;
 import com.cateno.services.DollarQuoteService;
 import com.cateno.utils.DataUtils;
 import com.cateno.views.DollarQuoteView;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
 
-@RestController
-@RequestMapping("/dollar")
+@Path("/dollar")
+@RegisterRestClient
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class DollarQuoteResource {
 
     @Inject
@@ -30,7 +31,7 @@ public class DollarQuoteResource {
      * @return Model DollarQuote contendo as cotacoes de compra e vendo e data.
      * @throws TimeException Lança uma exceçao para datas no futuro ou antes de 10-01-1990.
      */
-    @GetMapping
+    @GET
     public ResponseEntity<DollarQuoteView> getQuoteToday() throws TimeException {
         DollarQuote quote =
                 this.iDollarQuoteService.getDollarQuoteByDate(LocalDate.now());
@@ -45,8 +46,9 @@ public class DollarQuoteResource {
      * @return Model DollarQuote contendo as cotacoes de compra e vendo e data.
      * @throws TimeException Lança uma exceçao para datas no futuro ou antes de 10-01-1990.
      */
-    @GetMapping("/{date}")
-    public ResponseEntity<DollarQuoteView> getQuoteByDate(@PathVariable("date") String date) throws TimeException {
+    @GET
+    @Path("/{date}")
+    public ResponseEntity<DollarQuoteView> getQuoteByDate(@PathParam("date") String date) throws TimeException {
         LocalDate localdate = iDataUtils.parse(date);
 
         DollarQuote quote =
