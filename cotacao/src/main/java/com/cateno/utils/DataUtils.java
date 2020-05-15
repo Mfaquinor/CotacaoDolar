@@ -17,8 +17,7 @@ public class DataUtils {
 
     public LocalDate parse(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN);
-        LocalDate localdate = LocalDate.parse(date, formatter);
-        return localdate;
+        return LocalDate.parse(date, formatter);
     }
 
     public LocalDate getLastBusinessDay(LocalDate date) {

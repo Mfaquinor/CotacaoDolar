@@ -42,11 +42,11 @@ public class DollarQuoteService {
     }
 
     private DollarQuoteForm doRequestDollarQuoteByDateEscapingHollidays(LocalDate localdate) throws TimeException {
-        LocalDate lastDate = localdate.minusDays(1);
-        DollarQuoteForm form = this.doRequestDollarQuoteByDate(lastDate);
+        DollarQuoteForm form = this.doRequestDollarQuoteByDate(localdate);
 
-        if(form.isEmpty())
-            form = this.doRequestDollarQuoteByDateEscapingHollidays(lastDate);
+        if(form.isEmpty()) {
+            form = this.doRequestDollarQuoteByDateEscapingHollidays(localdate.minusDays(1));
+        }
 
         return form;
     }

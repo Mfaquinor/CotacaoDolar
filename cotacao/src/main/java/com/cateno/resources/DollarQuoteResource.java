@@ -33,7 +33,7 @@ public class DollarQuoteResource {
     }
 
     @GetMapping("/{date}")
-    public ResponseEntity<DollarQuoteView> getQuoteByDate(@PathVariable String date) throws TimeException {
+    public ResponseEntity<DollarQuoteView> getQuoteByDate(@PathVariable("date") String date) throws TimeException {
         LocalDate localdate = iDataUtils.parse(date);
 
         DollarQuote quote =
