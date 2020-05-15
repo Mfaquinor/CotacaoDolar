@@ -14,7 +14,6 @@ A especificação de Requisitos pode ser encontrada acessando [Aqui!](https://gi
 - [Grafana](https://grafana.com/)
 - [Docker](https://www.docker.com/)
 - [PostgreSQL](https://www.postgresql.org/)
-- [React](https://pt-br.reactjs.org/)
 
 ## Começando Projeto
 
@@ -34,7 +33,6 @@ O docker se encarregará de subir todos os serviços.
 A seguir as URL's que apontam para os respectivos serviços:
 
 - API - [http://localhost:8080/](http://localhost:8080/)
-- Frontend - [http://localhost:4200/](http://localhost:4200/)
 - Swagger - [http://localhost:8080/swagger-ui/](http://localhost:8080/swagger-ui/)
 - Prometheus - [http://localhost:9090/](http://localhost:9090/)
 - Grafana - [http://localhost:3000/](http://localhost:3000/)
