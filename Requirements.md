@@ -8,6 +8,8 @@ Este documento tem como objetivo especificar a implementação da "API de Cotaç
 
 ### Perspectiva do Produto
 
+![https://raw.githubusercontent.com/Mfaquinor/DesafioCotacaoDolar/master/flow.png](https://raw.githubusercontent.com/Mfaquinor/DesafioCotacaoDolar/master/flow.png)
+
 ### Funções do Produto
 
 Número | Função | Descrição
