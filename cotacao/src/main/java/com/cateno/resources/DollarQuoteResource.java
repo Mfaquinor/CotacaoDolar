@@ -5,6 +5,9 @@ import com.cateno.models.DollarQuote;
 import com.cateno.services.DollarQuoteService;
 import com.cateno.utils.DataUtils;
 import com.cateno.views.DollarQuoteView;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.springframework.http.ResponseEntity;
 
@@ -48,6 +51,8 @@ public class DollarQuoteResource {
      */
     @GET
     @Path("/{date}")
+    @Counted(name = "executions", description = "Conta Quantas Requisiçoes Foram Realizadas")
+    @Timed(name = "timer", description = "Calcula o Tempo Decorrido em Cada Requisiçao", unit = MetricUnits.MILLISECONDS)
     public ResponseEntity<DollarQuoteView> getQuoteByDate(@PathParam("date") String date) throws TimeException {
         LocalDate localdate = iDataUtils.parse(date);
 
