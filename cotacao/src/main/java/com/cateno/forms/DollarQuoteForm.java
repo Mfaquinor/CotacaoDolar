@@ -1,11 +1,13 @@
 package com.cateno.forms;
 
-import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbProperty;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class DollarQuoteForm {
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private List<DollarQuoteFormValue> value;
 
@@ -26,7 +28,12 @@ public class DollarQuoteForm {
     }
 
     public LocalDateTime getQuoteDate() {
-        return this.value.get(0).getDate();
+        String date = this.value.get(0).getDate();
+        return LocalDateTime.parse(date, formatter);
+    }
+
+    public boolean isEmpty() {
+        return this.value.isEmpty();
     }
 
     public static class DollarQuoteFormValue {
@@ -38,8 +45,7 @@ public class DollarQuoteForm {
         private double sale;
 
         @JsonbProperty("dataHoraCotacao")
-        @JsonbDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-        private LocalDateTime date;
+        private String date;
 
         public double getPurchase() {
             return purchase;
@@ -57,11 +63,11 @@ public class DollarQuoteForm {
             this.sale = sale;
         }
 
-        public LocalDateTime getDate() {
-            return date;
+        public String getDate() {
+            return this.date.split("\\.")[0];
         }
 
-        public void setDate(LocalDateTime date) {
+        public void setDate(String date) {
             this.date = date;
         }
     }

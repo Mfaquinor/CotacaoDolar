@@ -13,7 +13,7 @@ public class DataUtils {
 
     private LocalDate today = LocalDate.now();
 
-    private LocalDate past = LocalDate.of(1984, Month.NOVEMBER, 28);
+    private LocalDate past = LocalDate.of(1985, Month.JANUARY, 10);
 
     public LocalDate parse(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN);

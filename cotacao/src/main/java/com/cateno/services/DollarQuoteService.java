@@ -28,9 +28,7 @@ public class DollarQuoteService {
     DataUtils iDataUtils;
 
     public DollarQuote getDollarQuoteByDate(LocalDate localdate) throws TimeException {
-        LocalDate date = this.getValidDate(localdate);
-        String formatted = this.toFormattedStringDate(date);
-        DollarQuoteForm form = this.iDollarQuoteRestClient.getDollarQuoteByDate(formatted);
+        DollarQuoteForm form = this.doRequestDollarQuoteByDateEscapingHollidays(localdate);
 
         DollarQuote quote =
                 new DollarQuoteBuilder()
@@ -43,11 +41,27 @@ public class DollarQuoteService {
         return quote;
     }
 
+    private DollarQuoteForm doRequestDollarQuoteByDateEscapingHollidays(LocalDate localdate) throws TimeException {
+        LocalDate lastDate = localdate.minusDays(1);
+        DollarQuoteForm form = this.doRequestDollarQuoteByDate(lastDate);
+
+        if(form.isEmpty())
+            form = this.doRequestDollarQuoteByDateEscapingHollidays(lastDate);
+
+        return form;
+    }
+
+    private DollarQuoteForm doRequestDollarQuoteByDate(LocalDate localdate) throws TimeException {
+        LocalDate date = this.getValidDate(localdate);
+        String formatted = this.toFormattedStringDate(date);
+        return this.iDollarQuoteRestClient.getDollarQuoteByDate(formatted);
+    }
+
     private LocalDate getValidDate(LocalDate localdate) throws TimeException {
         if(this.iDataUtils.isDateInFuture(localdate))
             throw new TimeException("Data no futuro é invalida");
         if(this.iDataUtils.isDateInLimitPast(localdate))
-            throw new TimeException("Datas antes de 28/11/1984 são invalidas");
+            throw new TimeException("Datas antes de 10/01/1985 são invalidas");
 
         return this.iDataUtils.getLastBusinessDay(localdate);
     }

@@ -1,9 +1,7 @@
 package com.cateno.views;
 
-import javax.json.bind.annotation.JsonbNumberFormat;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbPropertyOrder;
-import java.text.DecimalFormat;
 
 @JsonbPropertyOrder(value = {"purchase", "sale"})
 public class QuoteView {
