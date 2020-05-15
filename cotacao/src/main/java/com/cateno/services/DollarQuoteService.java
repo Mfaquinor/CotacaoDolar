@@ -27,6 +27,13 @@ public class DollarQuoteService {
     @Inject
     DataUtils iDataUtils;
 
+    /**
+     * Busca a cotaçao do dolar de compra e venda para uma data especifica.
+     *
+     * @param localdate
+     * @return Model DollarQuote contendo as cotacoes de compra e vendo e data.
+     * @throws TimeException Lança uma exceçao para datas no futuro ou antes de 10-01-1990.
+     */
     public DollarQuote getDollarQuoteByDate(LocalDate localdate) throws TimeException {
         DollarQuoteForm form = this.doRequestDollarQuoteByDateEscapingHollidays(localdate);
 
@@ -41,6 +48,13 @@ public class DollarQuoteService {
         return quote;
     }
 
+    /**
+     * Procura a cotacao do ultimo dia util quando a data atual caiu em um feriado.
+     *
+     * @param localdate
+     * @return Model DollarQuoteForm contendo o json retornado pela API.
+     * @throws TimeException Lança uma exceçao para datas no futuro ou antes de 10-01-1990.
+     */
     private DollarQuoteForm doRequestDollarQuoteByDateEscapingHollidays(LocalDate localdate) throws TimeException {
         DollarQuoteForm form = this.doRequestDollarQuoteByDate(localdate);
 
@@ -51,12 +65,27 @@ public class DollarQuoteService {
         return form;
     }
 
+    /**
+     * Dispara a requisicao para a API Rest de cotacao de moedas.
+     *
+     * @param localdate
+     * @return Model DollarQuoteForm contendo o json retornado pela API.
+     * @throws TimeException Lança uma exceçao para datas no futuro ou antes de 10-01-1990.
+     */
     private DollarQuoteForm doRequestDollarQuoteByDate(LocalDate localdate) throws TimeException {
         LocalDate date = this.getValidDate(localdate);
         String formatted = this.toFormattedStringDate(date);
         return this.iDollarQuoteRestClient.getDollarQuoteByDate(formatted);
     }
 
+    /**
+     * Devolve uma data em um dia util caso a data inserida seja um final de semana.
+     * Valida se a data nao esta no futuro ou em um passado antes de 10-01-1890 lancando uma excecao.
+     *
+     * @param localdate
+     * @return LocalDate data do ultimo dia util.
+     * @throws TimeException Lança uma exceçao para datas no futuro ou antes de 10-01-1990.
+     */
     private LocalDate getValidDate(LocalDate localdate) throws TimeException {
         if(this.iDataUtils.isDateInFuture(localdate))
             throw new TimeException("Data no futuro é invalida");
@@ -66,6 +95,12 @@ public class DollarQuoteService {
         return this.iDataUtils.getLastBusinessDay(localdate);
     }
 
+    /**
+     * Formata uma data para o padrao reconehcido pela API de cotacao de moedas MM-dd-yyyy
+     *
+     * @param localdate
+     * @return Uma string de data no formato MM-dd-yyyy
+     */
     private String toFormattedStringDate(LocalDate localdate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         String date = localdate.format(formatter);

@@ -15,11 +15,23 @@ public class DataUtils {
 
     private LocalDate past = LocalDate.of(1985, Month.JANUARY, 10);
 
+    /**
+     * Converte uma String no formato dd-MM-yyyy para um objeto LocalDate.
+     *
+     * @param date String no formato dd-MM-yyyy.
+     * @return LocalDate.
+     */
     public LocalDate parse(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN);
         return LocalDate.parse(date, formatter);
     }
 
+    /**
+     * Retorna a data do ultimo dia util.
+     *
+     * @param date Data atual.
+     * @return LocalDate do ultimo dia util.
+     */
     public LocalDate getLastBusinessDay(LocalDate date) {
         DayOfWeek day = date.getDayOfWeek();
 
@@ -31,10 +43,22 @@ public class DataUtils {
         return date;
     }
 
+    /**
+     * Verifica se a data esta no futuro.
+     *
+     * @param date
+     * @return
+     */
     public boolean isDateInFuture(LocalDate date) {
         return this.today.isBefore(date);
     }
 
+    /**
+     * Verifica se a data esta antes de 10-01-1990.
+     *
+     * @param date
+     * @return
+     */
     public boolean isDateInLimitPast(LocalDate date) {
         return this.past.isAfter(date);
     }

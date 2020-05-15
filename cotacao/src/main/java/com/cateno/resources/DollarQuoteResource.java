@@ -24,6 +24,12 @@ public class DollarQuoteResource {
     @Inject
     DataUtils iDataUtils;
 
+    /**
+     * Busca a cotaçao do dolar na data de hoje.
+     *
+     * @return Model DollarQuote contendo as cotacoes de compra e vendo e data.
+     * @throws TimeException Lança uma exceçao para datas no futuro ou antes de 10-01-1990.
+     */
     @GetMapping
     public ResponseEntity<DollarQuoteView> getQuoteToday() throws TimeException {
         DollarQuote quote =
@@ -32,6 +38,13 @@ public class DollarQuoteResource {
         return ResponseEntity.ok(new DollarQuoteView(quote));
     }
 
+    /**
+     * Busca a cotacao do dolar em uma data especifica.
+     *
+     * @param date Uma String data no formato dd-MM-yyyy
+     * @return Model DollarQuote contendo as cotacoes de compra e vendo e data.
+     * @throws TimeException Lança uma exceçao para datas no futuro ou antes de 10-01-1990.
+     */
     @GetMapping("/{date}")
     public ResponseEntity<DollarQuoteView> getQuoteByDate(@PathVariable("date") String date) throws TimeException {
         LocalDate localdate = iDataUtils.parse(date);
