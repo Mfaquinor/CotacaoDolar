@@ -17,5 +17,22 @@ services:
         ports: 
             - "3000:3000"
 
+    quarkus:
+        build: 
+            dockerfile: cotacao/src/main/docker/Dockerfile.jvm
+            context: .
+        image: quarkus
+        container_name: quarkus
+        ports: 
+            - "8080:8080"
+        depends_on: 
+            - postgres    
     
-    
+    postgres:
+        image: postgres
+        environment: 
+            - POSTGRES_DB=cotacao
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        ports: 
+            - "5432:5432"
